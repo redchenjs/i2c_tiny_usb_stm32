@@ -33,7 +33,27 @@ UART_HandleTypeDef huart2 = {
     .Init.OverSampling = UART_OVERSAMPLING_16,
 };
 
-void huart1_init(void)
+void uart1_reset(void)
+{
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
+
+    GPIO_InitTypeDef io_conf = {
+        .Pin = GPIO_PIN_9,
+        .Mode = GPIO_MODE_OUTPUT_PP,
+        .Pull = GPIO_NOPULL,
+        .Speed = GPIO_SPEED_FREQ_HIGH,
+    };
+    HAL_GPIO_Init(GPIOA, &io_conf);
+
+    HAL_Delay(100);
+    HAL_UART_Init(&huart1);
+    HAL_Delay(100);
+
+    io_conf.Mode = GPIO_MODE_AF_PP;
+    HAL_GPIO_Init(GPIOA, &io_conf);
+}
+
+void uart1_init(void)
 {
     __HAL_RCC_USART1_CLK_ENABLE();
     HAL_UART_Init(&huart1);
@@ -49,7 +69,7 @@ void huart1_init(void)
     HAL_GPIO_Init(GPIOA, &io_conf);
 }
 
-void huart2_init(void)
+void uart2_init(void)
 {
     __HAL_RCC_USART2_CLK_ENABLE();
     HAL_UART_Init(&huart2);

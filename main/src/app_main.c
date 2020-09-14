@@ -14,7 +14,7 @@
 
 #include "user/led.h"
 #include "user/usb.h"
-#include "user/usb_uart.h"
+#include "user/usb_cdc.h"
 
 static void core_init(void)
 {
@@ -29,9 +29,9 @@ static void chip_init(void)
 
     i2c1_init();
 
-    huart1_init();
+    uart1_init();
 
-    huart2_init();
+    uart2_init();
 }
 
 static void board_init(void) {}
@@ -42,7 +42,7 @@ static void user_init(void)
 
     usb_init();
 
-    usb_uart_init();
+    usb_cdc_init();
 
     os_start();
 }
