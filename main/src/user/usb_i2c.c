@@ -7,16 +7,11 @@
 
 #include "stm32f1xx_hal.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-
 #include "tusb.h"
 
 #include "core/os.h"
 #include "chip/i2c.h"
 #include "user/usb_i2c.h"
-
-#define TAG "usb_i2c"
 
 static uint32_t i2c_smbus_funcs = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
 

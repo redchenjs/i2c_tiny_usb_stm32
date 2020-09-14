@@ -11,7 +11,9 @@
 #include "stm32f1xx_hal.h"
 
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 
 extern void huart1_init(void);
+extern void huart2_init(void);
 
 #endif /* INC_CHIP_UART_H_ */

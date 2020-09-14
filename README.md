@@ -1,7 +1,7 @@
-Generic USB-I2C Adapter
-=======================
+Generic USB to I2C Adapter
+==========================
 
-Generic USB-I2C Adapter based on STM32F103CB chip.
+Generic USB to I2C Adapter based on STM32F103CB chip.
 
 ## Dependencies
 

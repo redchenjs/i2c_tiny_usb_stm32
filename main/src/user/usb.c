@@ -26,13 +26,14 @@ static tusb_desc_device_t const desc_device = {
     .bDescriptorType    = TUSB_DESC_DEVICE,
     .bcdUSB             = 0x0200,
 
-    .bDeviceClass       = TUSB_CLASS_VENDOR_SPECIFIC,
-    .bDeviceSubClass    = 0,
-    .bDeviceProtocol    = 0,
+    .bDeviceClass       = TUSB_CLASS_MISC,
+    .bDeviceSubClass    = MISC_SUBCLASS_COMMON,
+    .bDeviceProtocol    = MISC_PROTOCOL_IAD,
+
     .bMaxPacketSize0    = CFG_TUD_ENDPOINT0_SIZE,
 
-    .idVendor           = 0x0403,
-    .idProduct          = 0xc631,
+    .idVendor           = 0x1c40,
+    .idProduct          = 0x0534,
     .bcdDevice          = 0x0205,
 
     .iManufacturer      = 0x01,
@@ -42,18 +43,33 @@ static tusb_desc_device_t const desc_device = {
     .bNumConfigurations = 0x01,
 };
 
-static uint8_t const desc_configuration[] = {
-    // Interface count, string index, total length, attribute, power in mA
-    TUD_CONFIG_DESCRIPTOR(1, 0, TUD_CONFIG_DESC_LEN + TUD_VENDOR_DESC_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
-    // Interface number, string index, EP Out & IN address, EP size
-    TUD_VENDOR_DESCRIPTOR(0, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE)
+enum itf_num {
+    ITF_NUM_VENDOR = 0,
+
+    ITF_NUM_CDC,
+    ITF_NUM_CDC_DATA,
+
+    ITF_NUM_TOTAL
 };
 
-static char const *desc_string_array[] = {
+#define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_VENDOR_DESC_LEN + TUD_CDC_DESC_LEN)
+
+static uint8_t const desc_configuration[] = {
+    // Interface count, string index, total length, attribute, power in mA
+    TUD_CONFIG_DESCRIPTOR(ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
+    // Interface number, string index, EP Out & IN address, EP size
+    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 4, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
+    // Interface number, string index, EP notification address and size, EP data address (out, in) and size.
+    TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 5, 0x83, 8, 0x02, 0x82, CFG_TUD_ENDPOINT0_SIZE),
+};
+
+static char const *desc_string_arr[] = {
     (const char[]){0x09, 0x04},         // 0: Language, English (0x0409)
     "EZPrototypes",                     // 1: Manufacturer
-    "Generic USB-I2C Adapter",          // 2: Product
+    "Generic USB to I2C Adapter",       // 2: Product
     (char[SERIAL_NUM_LEN+1]){0x00},     // 3: Serials, should use chip ID
+    "USB to I2C Interface",             // 4: USB to I2C Interface
+    "USB to UART Interface",            // 5: USB to UART Interface
 };
 
 static uint16_t desc_string[32] = {0};
@@ -85,16 +101,16 @@ uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid)
     uint8_t chr_count = 0;
 
     if (index == 0) {
-        memcpy(&desc_string[1], desc_string_array[0], 2);
+        memcpy(&desc_string[1], desc_string_arr[0], 2);
 
         chr_count = 1;
     } else {
         // convert ASCII string into UTF-16
-        if (!(index < sizeof(desc_string_array)/sizeof(desc_string_array[0]))) {
+        if (!(index < sizeof(desc_string_arr)/sizeof(desc_string_arr[0]))) {
             return NULL;
         }
 
-        const char *str = desc_string_array[index];
+        const char *str = desc_string_arr[index];
 
         // cap at max char
         chr_count = strlen(str);
@@ -118,7 +134,7 @@ void usb_task(void *pvParameter)
     (void)pvParameter;
 
     // unique device ID
-    snprintf((char *)desc_string_array[3], SERIAL_NUM_LEN + 1, SERIAL_NUM_FMT, *(uint32_t *)0x1FFFF7E8);
+    snprintf((char *)desc_string_arr[3], SERIAL_NUM_LEN + 1, SERIAL_NUM_FMT, *(uint32_t *)0x1FFFF7E8);
 
     tusb_init();
 
