@@ -93,8 +93,5 @@ LDFLAGS += \
 
 LIBS += -lgcc -lc -lm -lnosys
 
-JLINK_DEVICE = stm32f103cb
-JLINK_IF = swd
-
 include $(PWD)/make/common.mk
 include $(PWD)/make/project.mk

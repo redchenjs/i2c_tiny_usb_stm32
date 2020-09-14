@@ -73,17 +73,17 @@ size: $(BUILD)/$(PROJECT_NAME).elf
 clean:
 	rm -rf $(BUILD)
 
-ifeq ($(OS), Windows_NT)
-    JLINKEXE = JLink.exe
-else
-    JLINKEXE = JLinkExe
-endif
+OPENOCD_IF ?= jlink
+OPENOCD_TP ?= swd
 
 flash: $(BUILD)/$(PROJECT_NAME).hex
-	@echo halt > $(BUILD)/$(PROJECT_NAME).jlink
-	@echo r > $(BUILD)/$(PROJECT_NAME).jlink
-	@echo loadfile $^ >> $(BUILD)/$(PROJECT_NAME).jlink
-	@echo r >> $(BUILD)/$(PROJECT_NAME).jlink
-	@echo go >> $(BUILD)/$(PROJECT_NAME).jlink
-	@echo exit >> $(BUILD)/$(PROJECT_NAME).jlink
-	$(JLINKEXE) -device $(JLINK_DEVICE) -if $(JLINK_IF) -JTAGConf -1,-1 -speed auto -CommandFile $(BUILD)/$(PROJECT_NAME).jlink
+	@echo adapter driver $(OPENOCD_IF) > $(BUILD)/openocd.cfg
+	@echo transport select $(OPENOCD_TP) >> $(BUILD)/openocd.cfg
+	@echo source [find target/stm32f1x.cfg] >> $(BUILD)/openocd.cfg
+	@echo init >> $(BUILD)/openocd.cfg
+	@echo reset halt >> $(BUILD)/openocd.cfg
+	@echo flash write_image erase $(BUILD)/$(PROJECT_NAME).hex >> $(BUILD)/openocd.cfg
+	@echo verify_image $(BUILD)/$(PROJECT_NAME).hex >> $(BUILD)/openocd.cfg
+	@echo reset run >> $(BUILD)/openocd.cfg
+	@echo shutdown >> $(BUILD)/openocd.cfg
+	openocd -f $(BUILD)/openocd.cfg
