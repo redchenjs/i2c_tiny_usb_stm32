@@ -27,33 +27,29 @@ BUILD = build
 
 # Compiler flags
 CFLAGS += \
+	-ggdb \
+	-fdata-sections \
+	-ffunction-sections \
 	-fsingle-precision-constant \
 	-fno-strict-aliasing \
 	-Wdouble-promotion \
-	-Wno-endif-labels \
 	-Wstrict-prototypes \
 	-Wall \
 	-Wextra \
 	-Werror \
-	-Werror-implicit-function-declaration \
 	-Wfatal-errors \
+	-Werror-implicit-function-declaration \
 	-Wfloat-equal \
 	-Wundef \
 	-Wshadow \
 	-Wwrite-strings \
 	-Wsign-compare \
 	-Wmissing-format-attribute \
-	-Wno-deprecated-declarations \
-	-Wunreachable-code \
-	-Wno-error=unused-function \
-	-Wno-error=unused-parameter \
-	-Wno-error=lto-type-mismatch \
-	-ffunction-sections \
-	-fdata-sections
+	-Wunreachable-code
 
 # Debugging / Optimization
 ifeq ($(DEBUG), 1)
-    CFLAGS += -Og -ggdb
+    CFLAGS += -Og
 else
     CFLAGS += -Os
 endif

@@ -74,7 +74,6 @@ CFLAGS += \
 	-mcpu=cortex-m3 \
 	-mfloat-abi=soft \
 	-nostdlib -nostartfiles \
-	-Wno-unused-variable \
 	-DSTM32F103xB \
 	-DCFG_TUSB_MCU=OPT_MCU_STM32F1 \
 	$(addprefix -I,$(INC))
