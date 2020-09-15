@@ -6,8 +6,9 @@ Generic USB to I2C Adapter based on STM32F103CB chip.
 ## Dependencies
 
 ```
-JLinkExe
 arm-none-eabi-gcc
+arm-none-eabi-newlib
+jlink-software-and-documentation
 ```
 
 ## Preparing
