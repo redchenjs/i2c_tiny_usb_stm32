@@ -15,10 +15,12 @@
 #include "core/os.h"
 #include "chip/uart.h"
 
+static HAL_StatusTypeDef status = HAL_OK;
+static uint8_t buff[CFG_TUD_ENDPOINT0_SIZE] = {0};
+
 void tud_cdc_rx_cb(uint8_t itf)
 {
     (void)itf;
-    uint8_t buff[CFG_TUD_ENDPOINT0_SIZE] = {0};
     uint32_t size = tud_cdc_available();
 
     tud_cdc_read(buff, size);
@@ -32,9 +34,8 @@ void usb_uart_task(void *pvParameter)
 
     while (1) {
         if (tud_cdc_connected()) {
-            HAL_StatusTypeDef status = HAL_OK;
-
             char byte = 0;
+
             status = HAL_UART_Receive(&huart1, (uint8_t *)&byte, 1, 0);
 
             if (status == HAL_OK) {

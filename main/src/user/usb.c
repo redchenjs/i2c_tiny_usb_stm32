@@ -68,8 +68,8 @@ static char const *desc_string_arr[] = {
     "EZPrototypes",                     // 1: Manufacturer
     "Generic USB to I2C Adapter",       // 2: Product
     (char[SERIAL_NUM_LEN+1]){0x00},     // 3: Serials, should use chip ID
-    "USB to I2C Interface",             // 4: USB to I2C Interface
-    "USB to UART Interface",            // 5: USB to UART Interface
+    "USB to I2C Interface",             // 4: Interface 0
+    "USB to UART Interface",            // 5: Interface 1
 };
 
 static uint16_t desc_string[32] = {0};

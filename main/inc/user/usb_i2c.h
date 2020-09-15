@@ -20,7 +20,7 @@
 #define CMD_I2C_IO_BEGIN    (1<<0)
 #define CMD_I2C_IO_END      (1<<1)
 
-/* local i2c smbus status */
+/* i2c address ack status */
 #define STATUS_IDLE         0
 #define STATUS_ADDRESS_ACK  1
 #define STATUS_ADDRESS_NACK 2
