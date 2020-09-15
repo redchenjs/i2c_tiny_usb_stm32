@@ -11,7 +11,9 @@
 #include "task.h"
 
 #include "tusb.h"
+
 #include "core/os.h"
+#include "user/led.h"
 
 #define TAG "usb"
 
@@ -75,6 +77,9 @@ uint8_t const *tud_descriptor_device_cb(void)
 uint8_t const *tud_descriptor_configuration_cb(uint8_t index)
 {
     (void)index;
+
+    led_set_mode(7);
+
     return desc_configuration;
 }
 
