@@ -10,6 +10,9 @@
 
 #include <stdio.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+
 #define LOG_COLOR_BLACK   "30"
 #define LOG_COLOR_RED     "31"
 #define LOG_COLOR_GREEN   "32"

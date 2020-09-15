@@ -13,6 +13,8 @@
 #include "chip/i2c.h"
 #include "user/usb_i2c.h"
 
+#define TAG "usb_i2c"
+
 static HAL_StatusTypeDef status = HAL_OK;
 static uint8_t buff[CFG_TUD_ENDPOINT0_SIZE] = {0};
 
@@ -35,8 +37,11 @@ bool tud_vendor_control_request_cb(uint8_t rhport, tusb_control_request_t const 
         uint8_t read = request->wValue & I2C_M_RD;
         uint8_t addr = request->wIndex;
         uint8_t size = request->wLength;
+        uint32_t err = HAL_I2C_GetError(&i2c1);
 
-        if (status == HAL_BUSY) {
+        if (status != HAL_OK && err != (err & HAL_I2C_ERROR_AF)) {
+            OS_LOGW(TAG, "hardware reset");
+
             i2c1_reset();
         }
 
