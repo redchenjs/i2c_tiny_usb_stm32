@@ -26,9 +26,9 @@ static tusb_desc_device_t const desc_device = {
     .bDescriptorType    = TUSB_DESC_DEVICE,
     .bcdUSB             = 0x0200,
 
-    .bDeviceClass       = TUSB_CLASS_MISC,
-    .bDeviceSubClass    = MISC_SUBCLASS_COMMON,
-    .bDeviceProtocol    = MISC_PROTOCOL_IAD,
+    .bDeviceClass       = TUSB_CLASS_VENDOR_SPECIFIC,
+    .bDeviceSubClass    = 0x00,
+    .bDeviceProtocol    = 0x00,
     .bMaxPacketSize0    = CFG_TUD_ENDPOINT0_SIZE,
 
     .idVendor           = 0x1c40,
@@ -42,24 +42,13 @@ static tusb_desc_device_t const desc_device = {
     .bNumConfigurations = 0x01,
 };
 
-enum itf_num {
-    ITF_NUM_VENDOR = 0,
-
-    ITF_NUM_CDC,
-    ITF_NUM_CDC_DATA,
-
-    ITF_NUM_TOTAL
-};
-
-#define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_VENDOR_DESC_LEN + TUD_CDC_DESC_LEN)
+#define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_VENDOR_DESC_LEN)
 
 static uint8_t const desc_configuration[] = {
     // Interface count, string index, total length, attribute, power in mA
-    TUD_CONFIG_DESCRIPTOR(ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
+    TUD_CONFIG_DESCRIPTOR(1, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
     // Interface number, string index, EP Out & IN address, EP size
-    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
-    // Interface number, string index, EP notification address and size, EP data address (out, in) and size
-    TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 0, 0x82, 8, 0x03, 0x83, CFG_TUD_ENDPOINT0_SIZE),
+    TUD_VENDOR_DESCRIPTOR(0, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
 };
 
 static char const *desc_string_arr[] = {

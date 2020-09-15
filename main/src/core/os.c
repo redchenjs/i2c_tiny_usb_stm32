@@ -22,7 +22,7 @@ int __attribute__((used)) _write(int file, char *ptr, int len)
 {
     (void)file;
 
-    HAL_UART_Transmit(&huart2, (uint8_t *)ptr, len, HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, HAL_MAX_DELAY);
 
     return len;
 }
