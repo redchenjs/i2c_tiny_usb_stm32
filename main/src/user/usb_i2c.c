@@ -13,6 +13,7 @@
 #include "chip/i2c.h"
 #include "user/usb_i2c.h"
 
+static HAL_StatusTypeDef status = HAL_OK;
 static uint32_t i2c_smbus_funcs = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
 
 // Invoked when received VENDOR control request
@@ -35,22 +36,20 @@ bool tud_vendor_control_request_cb(uint8_t rhport, tusb_control_request_t const 
         uint8_t addr = request->wIndex;
         uint8_t size = request->wLength;
 
-        HAL_StatusTypeDef status = HAL_OK;
+        if (status == HAL_BUSY) {
+            i2c1_reset();
+        }
 
         if (read) {
             status = HAL_I2C_Master_Receive(&i2c1, addr << 1, (uint8_t *)buff, size, 500);
-        } else if (size == 0) {
+        } else if (!size) {
             status = HAL_I2C_Master_Transmit(&i2c1, addr << 1, (uint8_t *)buff, size, 500);
-        }
-
-        if (status == HAL_BUSY) {
-            i2c1_reset();
         }
 
         return tud_control_xfer(rhport, request, (void *)buff, size);
     }
     case CMD_GET_STATUS:
-        if (HAL_I2C_GetError(&i2c1) & HAL_I2C_ERROR_AF) {
+        if (status != HAL_OK) {
             buff[0] = STATUS_ADDRESS_NACK;
         } else {
             buff[0] = STATUS_ADDRESS_ACK;
@@ -78,14 +77,8 @@ bool tud_vendor_control_complete_cb(uint8_t rhport, tusb_control_request_t const
         uint8_t addr = request->wIndex;
         uint8_t size = request->wLength;
 
-        HAL_StatusTypeDef status = HAL_OK;
-
-        if (!read) {
-            HAL_I2C_Master_Transmit(&i2c1, addr << 1, (uint8_t *)(request + 6), size, 500);
-        }
-
-        if (status == HAL_BUSY) {
-            i2c1_reset();
+        if (!read && size) {
+            status = HAL_I2C_Master_Transmit(&i2c1, addr << 1, (uint8_t *)(request + 6), size, 500);
         }
 
         break;
