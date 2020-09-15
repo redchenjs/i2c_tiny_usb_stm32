@@ -24,7 +24,7 @@ void usbd_init(void)
 
     GPIO_InitTypeDef io_conf = {
         .Pin = GPIO_PIN_11 | GPIO_PIN_12,
-        .Mode = GPIO_MODE_INPUT,
+        .Mode = GPIO_MODE_OUTPUT_OD,
         .Pull = GPIO_NOPULL,
         .Speed = GPIO_SPEED_FREQ_HIGH,
     };
