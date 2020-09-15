@@ -37,8 +37,6 @@ void i2c1_reset(void)
     io_conf.Mode = GPIO_MODE_OUTPUT_OD;
     HAL_GPIO_Init(GPIOB, &io_conf);
 
-    HAL_Delay(100);
-
     CLEAR_BIT(i2c1.Instance->CR1, I2C_CR1_PE);
     asm("nop");
 
@@ -71,6 +69,7 @@ void i2c1_reset(void)
     asm("nop");
 
     HAL_I2C_Init(&i2c1);
+    HAL_Delay(100);
 
     io_conf.Mode = GPIO_MODE_AF_OD;
     HAL_GPIO_Init(GPIOB, &io_conf);
