@@ -14,13 +14,13 @@
 #include "user/usb_i2c.h"
 
 static HAL_StatusTypeDef status = HAL_OK;
+static uint8_t buff[CFG_TUD_ENDPOINT0_SIZE] = {0};
+
 static uint32_t i2c_smbus_funcs = I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
 
 // Invoked when received VENDOR control request
 bool tud_vendor_control_request_cb(uint8_t rhport, tusb_control_request_t const *request)
 {
-    uint8_t buff[CFG_TUD_ENDPOINT0_SIZE] = {0};
-
     switch (request->bRequest) {
     case CMD_GET_FUNC:
         memcpy(buff, &i2c_smbus_funcs, sizeof(i2c_smbus_funcs));
@@ -78,7 +78,7 @@ bool tud_vendor_control_complete_cb(uint8_t rhport, tusb_control_request_t const
         uint8_t size = request->wLength;
 
         if (!read && size) {
-            status = HAL_I2C_Master_Transmit(&i2c1, addr << 1, (uint8_t *)(request + 6), size, 500);
+            status = HAL_I2C_Master_Transmit(&i2c1, addr << 1, (uint8_t *)buff, size, 500);
         }
 
         break;
