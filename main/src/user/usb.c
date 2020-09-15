@@ -29,7 +29,6 @@ static tusb_desc_device_t const desc_device = {
     .bDeviceClass       = TUSB_CLASS_MISC,
     .bDeviceSubClass    = MISC_SUBCLASS_COMMON,
     .bDeviceProtocol    = MISC_PROTOCOL_IAD,
-
     .bMaxPacketSize0    = CFG_TUD_ENDPOINT0_SIZE,
 
     .idVendor           = 0x1c40,
@@ -58,9 +57,9 @@ static uint8_t const desc_configuration[] = {
     // Interface count, string index, total length, attribute, power in mA
     TUD_CONFIG_DESCRIPTOR(ITF_NUM_TOTAL, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
     // Interface number, string index, EP Out & IN address, EP size
-    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 4, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
-    // Interface number, string index, EP notification address and size, EP data address (out, in) and size.
-    TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 5, 0x83, 8, 0x02, 0x82, CFG_TUD_ENDPOINT0_SIZE),
+    TUD_VENDOR_DESCRIPTOR(ITF_NUM_VENDOR, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
+    // Interface number, string index, EP notification address and size, EP data address (out, in) and size
+    TUD_CDC_DESCRIPTOR(ITF_NUM_CDC, 0, 0x82, 8, 0x03, 0x83, CFG_TUD_ENDPOINT0_SIZE),
 };
 
 static char const *desc_string_arr[] = {
@@ -68,8 +67,6 @@ static char const *desc_string_arr[] = {
     "EZPrototypes",                     // 1: Manufacturer
     "Generic USB to I2C Adapter",       // 2: Product
     (char[SERIAL_NUM_LEN+1]){0x00},     // 3: Serials, should use chip ID
-    "USB to I2C Interface",             // 4: Interface 0
-    "USB to UART Interface",            // 5: Interface 1
 };
 
 static uint16_t desc_string[32] = {0};
