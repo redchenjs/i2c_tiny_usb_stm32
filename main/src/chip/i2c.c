@@ -25,7 +25,7 @@ I2C_HandleTypeDef i2c1 = {
 static GPIO_InitTypeDef io_conf = {
     .Pin = GPIO_PIN_6 | GPIO_PIN_7,
     .Mode = GPIO_MODE_AF_OD,
-    .Pull = GPIO_PULLUP,
+    .Pull = GPIO_NOPULL,
     .Speed = GPIO_SPEED_FREQ_HIGH,
 };
 
