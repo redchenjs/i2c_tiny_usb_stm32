@@ -38,6 +38,7 @@ SRC_C += \
 	$(ST_CMSIS)/Source/Templates/system_stm32f1xx.c \
 	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal.c \
 	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal_cortex.c \
+	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal_dma.c \
 	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal_rcc.c \
 	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal_rcc_ex.c \
 	$(ST_HAL_DRIVER)/Src/stm32f1xx_hal_gpio.c \
