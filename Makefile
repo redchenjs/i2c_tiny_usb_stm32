@@ -51,7 +51,6 @@ LD_FILE = \
 	$(ST_CMSIS)/Source/Templates/gcc/linker/STM32F103XB_FLASH.ld
 
 INC += \
-	$(SFUD_SRC)/inc \
 	$(TUSB_SRC)/src \
 	$(TUSB_SRC)/hw \
 	$(TUSB_SRC)/hw/mcu/st/st_driver/CMSIS/Include \
