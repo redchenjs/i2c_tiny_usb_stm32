@@ -41,7 +41,7 @@ static tusb_desc_device_t const desc_device = {
     .iProduct           = 0x02,
     .iSerialNumber      = 0x03,
 
-    .bNumConfigurations = 0x01,
+    .bNumConfigurations = 0x01
 };
 
 #define CONFIG_TOTAL_LEN  (TUD_CONFIG_DESC_LEN + TUD_VENDOR_DESC_LEN)
@@ -50,14 +50,14 @@ static uint8_t const desc_configuration[] = {
     // Interface count, string index, total length, attribute, power in mA
     TUD_CONFIG_DESCRIPTOR(1, 0, CONFIG_TOTAL_LEN, TUSB_DESC_CONFIG_ATT_REMOTE_WAKEUP, 100),
     // Interface number, string index, EP Out & IN address, EP size
-    TUD_VENDOR_DESCRIPTOR(0, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE),
+    TUD_VENDOR_DESCRIPTOR(0, 0, 0x01, 0x81, CFG_TUD_ENDPOINT0_SIZE)
 };
 
 static char const *desc_string_arr[] = {
     (const char[]){0x09, 0x04},         // 0: Language, English (0x0409)
     "EZPrototypes",                     // 1: Manufacturer
     "Generic USB to I2C Adapter",       // 2: Product
-    (char[SERIAL_NUM_LEN+1]){0x00},     // 3: Serials, should use chip ID
+    (char[SERIAL_NUM_LEN + 1]){0x00}    // 3: Serials, should use chip ID
 };
 
 static uint16_t desc_string[32] = {0};
@@ -78,7 +78,7 @@ uint8_t const *tud_descriptor_configuration_cb(uint8_t index)
 {
     (void)index;
 
-    led_set_mode(7);
+    led_set_mode(LED_MODE_IDX_PULSE_D1);
 
     return desc_configuration;
 }
@@ -97,7 +97,7 @@ uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid)
         chr_count = 1;
     } else {
         // convert ASCII string into UTF-16
-        if (!(index < sizeof(desc_string_arr)/sizeof(desc_string_arr[0]))) {
+        if (!(index < sizeof(desc_string_arr) / sizeof(desc_string_arr[0]))) {
             return NULL;
         }
 

@@ -17,7 +17,7 @@ UART_HandleTypeDef huart1 = {
     .Init.Parity = UART_PARITY_NONE,
     .Init.Mode = UART_MODE_TX_RX,
     .Init.HwFlowCtl = UART_HWCONTROL_NONE,
-    .Init.OverSampling = UART_OVERSAMPLING_16,
+    .Init.OverSampling = UART_OVERSAMPLING_16
 };
 
 void uart1_init(void)
@@ -31,7 +31,7 @@ void uart1_init(void)
         .Pin = GPIO_PIN_9,
         .Mode = GPIO_MODE_AF_PP,
         .Pull = GPIO_NOPULL,
-        .Speed = GPIO_SPEED_FREQ_HIGH,
+        .Speed = GPIO_SPEED_FREQ_HIGH
     };
     HAL_GPIO_Init(GPIOA, &io_conf);
 }

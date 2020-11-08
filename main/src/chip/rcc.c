@@ -7,10 +7,6 @@
 
 #include "stm32f1xx_hal.h"
 
-#include "core/os.h"
-
-#define TAG "rcc"
-
 void rcc_init(void)
 {
     __HAL_RCC_PWR_CLK_ENABLE();
@@ -22,7 +18,7 @@ void rcc_init(void)
         .HSIState = RCC_HSI_ON,
         .PLL.PLLState = RCC_PLL_ON,
         .PLL.PLLSource = RCC_PLLSOURCE_HSE,
-        .PLL.PLLMUL = RCC_PLL_MUL9,
+        .PLL.PLLMUL = RCC_PLL_MUL9
     };
     HAL_RCC_OscConfig(&osc_conf);
 
@@ -31,7 +27,7 @@ void rcc_init(void)
         .SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK,
         .AHBCLKDivider = RCC_SYSCLK_DIV1,
         .APB1CLKDivider = RCC_HCLK_DIV2,
-        .APB2CLKDivider = RCC_HCLK_DIV1,
+        .APB2CLKDivider = RCC_HCLK_DIV1
     };
     HAL_RCC_ClockConfig(&clk_conf, FLASH_LATENCY_2);
 

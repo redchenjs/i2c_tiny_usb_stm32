@@ -19,14 +19,14 @@ I2C_HandleTypeDef i2c1 = {
     .Init.GeneralCallMode = I2C_GENERALCALL_DISABLE,
     .Init.NoStretchMode = I2C_NOSTRETCH_DISABLE,
     .Init.OwnAddress1 = 0x00,
-    .Init.OwnAddress2 = 0x00,
+    .Init.OwnAddress2 = 0x00
 };
 
 static GPIO_InitTypeDef io_conf = {
     .Pin = GPIO_PIN_6 | GPIO_PIN_7,
     .Mode = GPIO_MODE_AF_OD,
     .Pull = GPIO_NOPULL,
-    .Speed = GPIO_SPEED_FREQ_HIGH,
+    .Speed = GPIO_SPEED_FREQ_HIGH
 };
 
 void i2c1_reset(void)

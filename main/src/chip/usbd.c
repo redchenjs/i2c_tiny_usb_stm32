@@ -16,7 +16,7 @@ void usbd_init(void)
 
     RCC_PeriphCLKInitTypeDef clk_conf = {
         .PeriphClockSelection = RCC_PERIPHCLK_USB,
-        .UsbClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5,
+        .UsbClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5
     };
     HAL_RCCEx_PeriphCLKConfig(&clk_conf);
 
@@ -26,7 +26,7 @@ void usbd_init(void)
         .Pin = GPIO_PIN_11 | GPIO_PIN_12,
         .Mode = GPIO_MODE_OUTPUT_OD,
         .Pull = GPIO_NOPULL,
-        .Speed = GPIO_SPEED_FREQ_HIGH,
+        .Speed = GPIO_SPEED_FREQ_HIGH
     };
     HAL_GPIO_Init(GPIOA, &io_conf);
 
