@@ -7,8 +7,29 @@
 
 #include <stdio.h>
 
+#include "stm32f1xx_hal.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
+
+const volatile uint8_t freeRTOSMemoryScheme = configUSE_HEAP_SCHEME;
+
+void PendSV_Handler(void)
+{
+    xPortPendSVHandler();
+}
+
+void SysTick_Handler(void)
+{
+    HAL_IncTick();
+
+    xPortSysTickHandler();
+}
+
+void SVC_Handler(void)
+{
+    vPortSVCHandler();
+}
 
 void vApplicationStackOverflowHook(TaskHandle_t pxTask, signed char *pcTaskName)
 {

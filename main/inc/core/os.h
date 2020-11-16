@@ -10,9 +10,6 @@
 
 #include <stdio.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-
 #define LOG_COLOR_BLACK   "30"
 #define LOG_COLOR_RED     "31"
 #define LOG_COLOR_GREEN   "32"
@@ -35,7 +32,6 @@
 #define OS_LOGW(tag, format, ...) printf(LOG_FORMAT(W, format), xTaskGetTickCount(), tag, ##__VA_ARGS__)
 #define OS_LOGI(tag, format, ...) printf(LOG_FORMAT(I, format), xTaskGetTickCount(), tag, ##__VA_ARGS__)
 
-extern void os_start(void);
 extern void os_init(void);
 
 #endif /* INC_CORE_OS_H_ */

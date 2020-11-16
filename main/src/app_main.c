@@ -24,9 +24,9 @@ static void chip_init(void)
 {
     rcc_init();
 
-    usbd_init();
-
     i2c1_init();
+
+    usbd_init();
 
     uart1_init();
 }
@@ -38,11 +38,9 @@ static void user_init(void)
     led_init();
 
     usb_init();
-
-    os_start();
 }
 
-int main(void)
+int app_main(void)
 {
     core_init();
 
